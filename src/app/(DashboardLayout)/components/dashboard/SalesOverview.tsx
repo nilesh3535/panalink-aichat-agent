@@ -95,7 +95,7 @@ const SalesOverview = ({ allchats }: Props) => {
         horizontal: false,
         barHeight: "60%",
         columnWidth: "42%",
-        borderRadius: [6],
+        borderRadius: 6,
         borderRadiusApplication: "end",
         borderRadiusWhenStacked: "all",
       },
