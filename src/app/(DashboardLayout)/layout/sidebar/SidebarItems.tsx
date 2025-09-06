@@ -90,6 +90,7 @@ const SidebarItems = () => {
               variant="h3"
               component="h2"
               sx={{ textDecoration: "none" }}
+              color="#5D87FF"
             >
               AI CHAT AGENT
             </Typography>
