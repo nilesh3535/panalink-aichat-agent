@@ -111,7 +111,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             id="username"
             value={username}
             placeholder="Enter username"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e: any) => setUsername(e.target.value)}
             variant="outlined"
             fullWidth
           />
@@ -131,7 +131,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             type={showPassword ? "text" : "password"}
             value={password}
             placeholder="***************"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e: any) => setPassword(e.target.value)}
             variant="outlined"
             fullWidth
             InputProps={{
