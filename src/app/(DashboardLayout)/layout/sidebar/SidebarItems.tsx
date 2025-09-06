@@ -70,21 +70,33 @@ const SidebarItems = () => {
         themeColor={"#5D87FF"}
         themeSecondaryColor={"#49beff"}
       >
-        <Box mt={"20px"} display={"flex"} alignItems="center" justifyContent="center">
-          <Image
-            src="/images/anika.png"
-            alt="logo"
-            height={40}
-            width={40}
-            priority
-          />
-          <Typography ml={"10px"} variant="h3" component="h2">
-            AI CHAT AGENT
-          </Typography>
-        </Box>
+        <Link href="/" passHref style={{ textDecoration: "none" }}>
+          <Box
+            mt="20px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ cursor: "pointer", textDecoration: "none" }}
+          >
+            <Image
+              src="/images/anika.png"
+              alt="logo"
+              height={40}
+              width={40}
+              priority
+            />
+            <Typography
+              ml="10px"
+              variant="h3"
+              component="h2"
+              sx={{ textDecoration: "none" }}
+            >
+              AI CHAT AGENT
+            </Typography>
+          </Box>
+        </Link>
 
         {renderMenuItems(Menuitems, pathDirect)}
-        
       </MUI_Sidebar>
     </>
   );

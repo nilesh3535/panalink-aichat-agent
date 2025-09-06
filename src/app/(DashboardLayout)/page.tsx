@@ -35,10 +35,7 @@ const Dashboard = () => {
     initializeAppData();
   }, []);
   return (
-    <PageContainer
-      title="Dashboard-AI CHAT AGENT"
-      description="this is Dashboard"
-    >
+    <PageContainer title="Portal-AI CHAT AGENT" description="this is Dashboard">
       <Box>
         <Grid container spacing={3}>
           <Grid

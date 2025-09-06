@@ -11,7 +11,17 @@ import {
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import moment from "moment";
 
-const MonthlyEarnings = ({ allchats }) => {
+interface Chat {
+  session_id: string;
+  created_at: string;
+  // Add other properties if needed
+}
+
+interface MonthlyEarningsProps {
+  allchats: Chat[];
+}
+
+const MonthlyEarnings = ({ allchats }: MonthlyEarningsProps) => {
   const uniqueAllDataSessionsMap = new Map();
 
   allchats.forEach((chat) => {
@@ -124,7 +134,6 @@ const MonthlyEarnings = ({ allchats }) => {
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {moment(currentMonth).format("MMMM YYYY")}
-           
           </Typography>
         </Stack>
       </>

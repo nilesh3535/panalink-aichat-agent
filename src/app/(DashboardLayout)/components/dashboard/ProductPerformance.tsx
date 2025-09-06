@@ -22,7 +22,11 @@ interface Chat {
   aioutput: string;
 }
 
-const ProductPerformance = ({ allchats }) => {
+interface MonthlyEarningsProps {
+  allchats: Chat[];
+}
+
+const ProductPerformance = ({ allchats }: MonthlyEarningsProps) => {
   const [selectedSession, setSelectedSession] = useState<string | null>(null);
 
   const seen = new Set<string>();
@@ -86,7 +90,11 @@ const ProductPerformance = ({ allchats }) => {
                     >
                       <Box sx={{ minWidth: 0, textAlign: "right" }}>
                         <Typography variant="subtitle2" color="primary">
-                          User
+                          User (
+                          {moment(chat.created_at).format(
+                            "DD MMM YY - hh:mm A"
+                          )}
+                          )
                         </Typography>
                         <Typography
                           sx={{
@@ -121,10 +129,29 @@ const ProductPerformance = ({ allchats }) => {
                           height={32}
                         />
                       </Box>
+
                       <Box sx={{}}>
-                        <Typography variant="subtitle2" fontWeight={"bold"}  color="#1a4bdd">
-                          AI
-                        </Typography>
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
+                          <Typography
+                            variant="subtitle2"
+                            fontWeight="bold"
+                            color="#1a4bdd"
+                          >
+                            AI
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            fontStyle="italic"
+                            color="gray"
+                          >
+                            {moment(chat.created_at).format(
+                              "DD MMM YY - hh:mm:ss A"
+                            )}
+                          </Typography>
+                        </Box>
+
                         <div
                           className="prose prose-invert"
                           style={{
@@ -198,7 +225,7 @@ const ProductPerformance = ({ allchats }) => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="subtitle2">
-                      {moment(session.created_at).format("YYYY-MM-DD hh:mm A")}
+                      {moment(session.created_at).format("DD MMM YY - hh:mm A")}
                     </Typography>
                   </TableCell>
                   <TableCell>

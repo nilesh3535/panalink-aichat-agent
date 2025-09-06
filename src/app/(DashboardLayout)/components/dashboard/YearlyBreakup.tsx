@@ -6,34 +6,42 @@ import { IconArrowUpLeft } from "@tabler/icons-react";
 
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import moment from "moment";
+interface Chat {
+  session_id: string;
+  created_at: string;
+  // Add other properties if needed
+}
 
-const YearlyBreakup = ({ allchats }) => {
- const uniqueAllDataSessionsMap = new Map();
- 
-   allchats.forEach((chat) => {
-     if (!uniqueAllDataSessionsMap.has(chat.session_id)) {
-       uniqueAllDataSessionsMap.set(chat.session_id, chat);
-     }
-   });
- 
-   const uniqueSessionChats = Array.from(uniqueAllDataSessionsMap.values());
-   const currentMonth = moment().format("YYYY-MM");
- 
-   const currentMonthChats = allchats.filter(
-     (c) => moment(c.created_at).format("YYYY-MM") === currentMonth
-   );
- 
-   // Get unique session_id entries
-   const uniqueSessionsMap = new Map();
- 
-   currentMonthChats.forEach((c) => {
-     if (!uniqueSessionsMap.has(c.session_id)) {
-       uniqueSessionsMap.set(c.session_id, c);
-     }
-   });
- 
-   const uniqueCurrentMonthChats = Array.from(uniqueSessionsMap.values());
-  
+interface MonthlyEarningsProps {
+  allchats: Chat[];
+}
+const YearlyBreakup = ({ allchats }: MonthlyEarningsProps) => {
+  const uniqueAllDataSessionsMap = new Map();
+
+  allchats.forEach((chat) => {
+    if (!uniqueAllDataSessionsMap.has(chat.session_id)) {
+      uniqueAllDataSessionsMap.set(chat.session_id, chat);
+    }
+  });
+
+  const uniqueSessionChats = Array.from(uniqueAllDataSessionsMap.values());
+  const currentMonth = moment().format("YYYY-MM");
+
+  const currentMonthChats = allchats.filter(
+    (c) => moment(c.created_at).format("YYYY-MM") === currentMonth
+  );
+
+  // Get unique session_id entries
+  const uniqueSessionsMap = new Map();
+
+  currentMonthChats.forEach((c) => {
+    if (!uniqueSessionsMap.has(c.session_id)) {
+      uniqueSessionsMap.set(c.session_id, c);
+    }
+  });
+
+  const uniqueCurrentMonthChats = Array.from(uniqueSessionsMap.values());
+
   // chart color
   const theme = useTheme();
   const primary = theme.palette.primary.main;

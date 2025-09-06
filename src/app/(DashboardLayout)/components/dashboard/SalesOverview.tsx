@@ -4,10 +4,20 @@ import { useTheme } from "@mui/material/styles";
 import DashboardCard from "@/app/(DashboardLayout)/components/shared/DashboardCard";
 import dynamic from "next/dynamic";
 import moment from "moment";
+import { ApexOptions } from "apexcharts";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const getMonthOptions = (allchats) => {
+type Chat = {
+  created_at: string;
+  session_id: string;
+};
+
+type Props = {
+  allchats: Chat[];
+};
+
+const getMonthOptions = (allchats: Chat[]) => {
   const months = Array.from(
     new Set(
       allchats.map((c) =>
@@ -19,15 +29,15 @@ const getMonthOptions = (allchats) => {
   return months;
 };
 
-const getChartData = (allchats, selectedMonth) => {
+const getChartData = (allchats: Chat[], selectedMonth: string) => {
   const filtered = allchats.filter(
     (c) => moment(c.created_at).format("YYYY-MM") === selectedMonth
   );
 
-  const dateSessionMap = {};
+  const dateSessionMap: { [date: string]: Set<string> } = {};
   filtered.forEach((c) => {
     const date = moment(c.created_at).format("YYYY-MM-DD");
-    if (!dateSessionMap[date]) dateSessionMap[date] = new Set();
+    if (!dateSessionMap[date]) dateSessionMap[date] = new Set<string>();
     dateSessionMap[date].add(c.session_id);
   });
 
@@ -37,7 +47,7 @@ const getChartData = (allchats, selectedMonth) => {
   return { dates, counts };
 };
 
-const getUniqueSessionsForMonth = (allchats, targetMonth) => {
+const getUniqueSessionsForMonth = (allchats: Chat[], targetMonth: string) => {
   const filtered = allchats.filter(
     (c) => moment(c.created_at).format("YYYY-MM") === targetMonth
   );
@@ -46,13 +56,14 @@ const getUniqueSessionsForMonth = (allchats, targetMonth) => {
   return uniqueSessionIds.size;
 };
 
-const SalesOverview = ({ allchats }) => {
+const SalesOverview = ({ allchats }: Props) => {
   const currentMonth = moment().format("YYYY-MM");
 
   const monthOptions = getMonthOptions(allchats);
   const defaultMonth = monthOptions.includes(currentMonth)
     ? currentMonth
     : monthOptions[0] || "";
+
   const [month, setMonth] = React.useState(defaultMonth);
 
   React.useEffect(() => {
@@ -60,10 +71,9 @@ const SalesOverview = ({ allchats }) => {
       ? currentMonth
       : monthOptions[0] || "";
     setMonth(updatedMonth);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allchats.length]);
 
-  const handleChange = (event) => setMonth(event.target.value);
+  const handleChange = (event: any) => setMonth(event.target.value);
 
   const { dates, counts } = getChartData(allchats, month);
   const totalSessions = getUniqueSessionsForMonth(allchats, month);
@@ -71,10 +81,10 @@ const SalesOverview = ({ allchats }) => {
   const theme = useTheme();
   const primary = theme.palette.primary.main;
 
-  const optionscolumnchart = {
+  const optionscolumnchart: ApexOptions = {
     chart: {
       type: "bar",
-      fontFamily: "'Plus Jakarta Sans', sans-serif;",
+      fontFamily: "'Plus Jakarta Sans', sans-serif",
       foreColor: "#adb0bb",
       toolbar: { show: true },
       height: 370,
@@ -90,7 +100,12 @@ const SalesOverview = ({ allchats }) => {
         borderRadiusWhenStacked: "all",
       },
     },
-    stroke: { show: true, width: 5, lineCap: "butt", colors: ["transparent"] },
+    stroke: {
+      show: true,
+      width: 5,
+      lineCap: "butt",
+      colors: ["transparent"],
+    },
     dataLabels: { enabled: false },
     legend: { show: false },
     grid: {
@@ -106,12 +121,7 @@ const SalesOverview = ({ allchats }) => {
     tooltip: { theme: "dark", fillSeriesColor: false },
   };
 
-  const seriescolumnchart = [
-    {
-      name: "Sessions",
-      data: counts,
-    },
-  ];
+  const seriescolumnchart = [{ name: "Sessions", data: counts }];
 
   return (
     <DashboardCard
