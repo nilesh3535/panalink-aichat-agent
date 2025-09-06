@@ -6,7 +6,6 @@ import {
   IconMoodHappy,
   IconTypography,
   IconUserPlus,
-  IconChat,
   IconMessages,
 } from "@tabler/icons-react";
 
